@@ -1,60 +1,64 @@
 <?php
-    include_once '../data/database.php';
+include_once 'index.php';
+include_once '../data/database.php';
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Order Status Search</title>
 </head>
+
 <body>
-    <form method="GET" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <label for="status">Select Status:</label>
-        <select name="status" required>
-            <option value="Pending">Pending</option>
-            <option value="In Process">In Process</option>
-            <option value="Finished">Finished</option>
-        </select>
-        <button type="submit">Search</button>
-    </form>
+    <div class="content">
+        <h2>Поиск Заказов по Статусу</h2><br></br>
 
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        $status = $_GET["status"];
 
-        $status = mysqli_real_escape_string($conn, $status);
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <label for="status">Статус:</label>
+            <select name="status" required>
+                <option value="В очереди">В очереди</option>
+                <option value="В процессе">В процессе</option>
+                <option value="Закончено">Закончено</option>
+            </select>
+            <button type="submit">Найти</button>
+        </form><br></br>
 
-        $sql = "SELECT * FROM Orders WHERE status = '$status'";
-        $result = $conn->query($sql);
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $status = $_POST["status"];
 
-        if ($result->num_rows > 0) {
-            echo "<h2>Orders with Status: $status</h2>";
-            echo "<table>";
-            echo "<tr>
-                    <th>Order ID</th>
-                    <th>Customer ID</th>
-                    <th>Order Date</th>
-                    <th>Pickup Date</th>
-                    <th>Total Amount</th>
-                    <th>Status</th>
+            $sql = "SELECT * FROM Orders WHERE status = '$status'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                echo "<h2>Заказы со Статусом: $status</h2><br></br>";
+                echo "<table>";
+                echo "<tr>
+                    <th>ID</th>
+                    <th>ID клиента</th>
+                    <th>Дата заказа</th>
+                    <th>Дата выдачи</th>
+                    <th>Общая сумма</th>
+                    <th>Статус</th>
                   </tr>";
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row["order_id"] . "</td>";
-                echo "<td>" . $row["customer_id"] . "</td>";
-                echo "<td>" . $row["order_date"] . "</td>";
-                echo "<td>" . $row["pickup_date"] . "</td>";
-                echo "<td>" . $row["total_amount"] . "</td>";
-                echo "<td>" . $row["status"] . "</td>";
-                echo "</tr>";
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row["order_id"] . "</td>";
+                    echo "<td>" . $row["customer_id"] . "</td>";
+                    echo "<td>" . $row["order_date"] . "</td>";
+                    echo "<td>" . $row["pickup_date"] . "</td>";
+                    echo "<td>" . $row["total_amount"] . "</td>";
+                    echo "<td>" . $row["status"] . "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+            } else {
+                echo "Ничего не найдено :(";
             }
-            echo "</table>";
-        } else {
-            echo "No orders found with the selected status.";
         }
-
-        // Close the database connection
-        $conn->close();
-    }
-    ?>
+        ?>
+    </div>
 </body>
+
 </html>
