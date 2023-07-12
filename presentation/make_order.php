@@ -110,7 +110,6 @@ if ($result->num_rows > 0) {
         <label for="phone_number">Номер Телефона:</label>
         <input type="text" name="phone_number" id="phone_number" list="phone_number_list" autocomplete="off" required> <br></br>
 
-        <!-- Phone number suggestions -->
         <datalist id="phone_number_list">
             <?php foreach ($phone_numbers as $number) {
                 echo "<option value='$number'>";

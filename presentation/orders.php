@@ -7,7 +7,7 @@ include_once '../data/database.php';
 <html>
 
 <head>
-    <title>Order CRUD Form</title>
+    <title>Orders</title>
 </head>
 
 <body>

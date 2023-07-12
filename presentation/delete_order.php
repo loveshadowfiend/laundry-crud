@@ -6,4 +6,3 @@
     $conn->query($sql);
 
     header("Location: phone_number.php");
-?>

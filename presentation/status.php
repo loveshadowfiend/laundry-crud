@@ -18,19 +18,14 @@
     </form>
 
     <?php
-    // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        // Retrieve the selected status from the form
         $status = $_GET["status"];
 
-        // Sanitize the selected status
         $status = mysqli_real_escape_string($conn, $status);
 
-        // Perform the query
         $sql = "SELECT * FROM Orders WHERE status = '$status'";
         $result = $conn->query($sql);
 
-        // Display the results
         if ($result->num_rows > 0) {
             echo "<h2>Orders with Status: $status</h2>";
             echo "<table>";
