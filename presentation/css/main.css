@@ -1,0 +1,83 @@
+* {
+    font-family: 'Monaco';
+}
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    background-color: #151515;
+    color: #e8e8d3 !important;
+    padding: 3px;
+
+    text-decoration: none;
+    color: initial;
+}
+
+body {
+    margin: 0;
+}
+
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    font-weight: normal;
+    background-color: #151515;
+    color: #e8e8d3;
+}
+
+input[type=submit],
+button[type=submit] {
+    background-color: #151515;
+    color: #e8e8d3;
+    border: none;
+}
+
+input[type=submit]:focus {
+    background-color: #303030;
+}
+
+.sidebar {
+    padding: 0;
+    background-color: #151515;
+    color: #e8e8d3;
+    width: 200px;
+    height: 100%;
+    position: fixed;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0px;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.sidebar ul li:hover {
+    background-color: #202020;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* CSS styling for the main content area */
+.content {
+    margin-left: 200px;
+    padding: 20px;
+}
