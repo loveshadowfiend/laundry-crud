@@ -102,7 +102,6 @@ include_once '../data/database.php';
         <?php
         }
 
-        // Retrieve customer details for editing
         if (isset($_POST["edit"]) || isset($_GET["customer_id"])) {
             if (isset($_GET["customer_id"])) {
                 $customer_id = sanitize_input($_GET["customer_id"]);

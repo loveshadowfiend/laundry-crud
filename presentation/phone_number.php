@@ -47,7 +47,7 @@ include_once '../data/database.php';
 
                 echo "</table>";
             } else {
-                echo "Клиентов не найдено.";
+                echo "Клиентов не найдено :(";
             }
 
             // Find orders by phone number
@@ -73,7 +73,7 @@ include_once '../data/database.php';
 
                 echo "</table>";
             } else {
-                echo "Заказов не найдено.";
+                echo "Заказов не найдено :(";
             }
         }
         ?>

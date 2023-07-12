@@ -15,6 +15,7 @@
             <br></br>
             <li><a href="make_order.php">Создать Заказ</a></li>
             <li><a href="phone_number.php">Поиск по Номеру Телефона</a></li>
+            <li><a href="status.php">Поиск по Статусу Заказа</a></li>
         </ul>
     </div>
 </body>
