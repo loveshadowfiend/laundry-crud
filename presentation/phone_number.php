@@ -16,17 +16,31 @@ include_once '../data/database.php';
         <br></br>
 
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <label for="phone_number">Номер телефона:</label>
-            <input type="text" name="phone_number" required>
+            <label for="phone_number">Номер Телефона:</label>
+            <input type="text" name="phone_number" id="phone_number" list="phone_number_list" autocomplete="off" required> <br></br>
+            <datalist id="phone_number_list">
+                <?php
+                $sql = "SELECT phone_number FROM Customers";
+                $result = $conn->query($sql);
+
+                $phone_numbers = array();
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $phone_numbers[] = $row["phone_number"];
+                    }
+                }
+                foreach ($phone_numbers as $number) {
+                    echo "<option value='$number'>";
+                } ?>
+            </datalist>
+
             <input type="submit" name="submit" value="Найти">
         </form>
 
         <?php
-        // Handle form submission
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $phone_number = $_POST["phone_number"];
 
-            // Find customer by phone number
             $customer_sql = "SELECT * FROM Customers WHERE phone_number LIKE '%$phone_number%'";
             $customer_result = $conn->query($customer_sql);
 
@@ -50,7 +64,6 @@ include_once '../data/database.php';
                 echo "Клиентов не найдено :(";
             }
 
-            // Find orders by phone number
             $orders_sql = "SELECT * FROM Orders WHERE customer_id IN (SELECT customer_id FROM Customers WHERE phone_number LIKE '%$phone_number%')";
             $orders_result = $conn->query($orders_sql);
 

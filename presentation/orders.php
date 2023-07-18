@@ -35,13 +35,14 @@ include_once '../data/database.php';
                 } else {
                     $pickup_date = "'" . $pickup_date . "'";
                 }
+                $weight = sanitize_input($_POST["weight"]);
                 $total_amount = sanitize_input($_POST["total_amount"]);
                 $status = sanitize_input($_POST["status"]);
 
                 if (empty($order_id)) {
-                    $sql = "INSERT INTO Orders (customer_id, laundry_type, item_id, employee_id, order_date, pickup_date, total_amount, status) VALUES ($customer_id, '$laundry_type', $item_id, $employee_id, '$order_date', $pickup_date, $total_amount, '$status')";
+                    $sql = "INSERT INTO Orders (customer_id, laundry_type, item_id, employee_id, order_date, pickup_date, total_amount, status, weight) VALUES ($customer_id, '$laundry_type', $item_id, $employee_id, '$order_date', $pickup_date, $total_amount, '$status', $weight)";
                 } else {
-                    $sql = "UPDATE Orders SET customer_id=$customer_id, laundry_type='$laundry_type', item_id=$item_id, employee_id=$employee_id, order_date='$order_date', pickup_date=$pickup_date, total_amount=$total_amount, status='$status' WHERE order_id=$order_id";
+                    $sql = "UPDATE Orders SET customer_id=$customer_id, laundry_type='$laundry_type', item_id=$item_id, employee_id=$employee_id, order_date='$order_date', pickup_date=$pickup_date, total_amount=$total_amount, status='$status', weight=$weight WHERE order_id=$order_id";
                 }
 
                 if ($conn->query($sql) === TRUE) {
@@ -91,6 +92,7 @@ include_once '../data/database.php';
                     <th>ID работника</th>
                     <th>Дата Заказа</th>
                     <th>Дата Выдачи</th>
+                    <th>Вес</th>
                     <th>Общая Сумма</th>
                     <th>Статус</th>
                     <th>Действие</th>
@@ -106,13 +108,14 @@ include_once '../data/database.php';
                         <td><?php echo $row["employee_id"]; ?></td>
                         <td><?php echo $row["order_date"]; ?></td>
                         <td><?php echo $row["pickup_date"]; ?></td>
+                        <td><?php echo $row["weight"]; ?></td>
                         <td><?php echo $row["total_amount"]; ?></td>
                         <td><?php echo $row["status"]; ?></td>
                         <td>
                             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                                 <input type="hidden" name="order_id" value="<?php echo $row["order_id"]; ?>">
                                 <input type="submit" name="edit" value="Изменить">
-                                <input type="submit" name="delete" value="Удалить" onclick="return confirm('Are you sure you want to delete this order?')">
+                                <input type="submit" name="delete" value="Удалить" onclick="return confirm('Вы уверены, что хотите удалить запись?')">
                             </form>
                         </td>
                     </tr>
@@ -212,6 +215,9 @@ include_once '../data/database.php';
 
             <label for="pickup_date">Дата Выдачи:</label>
             <input type="date" name="pickup_date" value="<?php if (isset($edit_row)) echo $edit_row['pickup_date']; ?>"><br><br>
+            
+            <label for="weight">Вес:</label>
+            <input type="number" name="weight" step="1.00" value="<?php if (isset($edit_row)) echo $edit_row['weight']; ?>" required><br><br>
 
             <label for="total_amount">Общая Сумма:</label>
             <input type="number" name="total_amount" step="0.01" value="<?php if (isset($edit_row)) echo $edit_row['total_amount']; ?>" required><br><br>

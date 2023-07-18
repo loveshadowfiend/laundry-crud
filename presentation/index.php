@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel</title>
+    <title>Laundry</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>

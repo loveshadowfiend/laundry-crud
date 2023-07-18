@@ -1,6 +1,17 @@
 <?php
 include_once 'index.php';
 include_once '../data/database.php';
+
+function validatePhoneNumber($phone) {
+    $phone = preg_replace('/[^0-9]/', '', $phone);
+    $pattern = '/^(?:\+?7|8)?[0-9]{10}$/';
+
+    if (preg_match($pattern, $phone)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +38,9 @@ include_once '../data/database.php';
                 $first_name = sanitize_input($_POST["first_name"]);
                 $last_name = sanitize_input($_POST["last_name"]);
                 $phone_number = sanitize_input($_POST["phone_number"]);
+                if (!validatePhoneNumber($phone_number)) {
+                    echo "<script>alert('Неправильный номер. Введите в формате +71112223344.');</script>";
+                }
 
                 if (empty($customer_id)) {
                     $sql = "INSERT INTO Customers (first_name, last_name, phone_number) VALUES ('$first_name', '$last_name', '$phone_number')";
@@ -117,6 +131,22 @@ include_once '../data/database.php';
             }
         }
         ?>
+
+        <h2>Клиент</h2>
+
+        <br></br>
+
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <input type="hidden" name="customer_id" value="<?php if (isset($edit_row)) echo $edit_row['customer_id']; ?>">
+            <label for="first_name">Имя:</label>
+            <input type="text" name="first_name" value="<?php if (isset($edit_row)) echo $edit_row['first_name']; ?>" required><br><br>
+            <label for="last_name">Фамилия:</label>
+            <input type="text" name="last_name" value="<?php if (isset($edit_row)) echo $edit_row['last_name']; ?>"><br><br>
+            <label for="phone_number">Номер Телефона:</label>
+            <input type="text" name="phone_number" value="<?php if (isset($edit_row)) echo $edit_row['phone_number']; ?>" required><br><br>
+            <input type="submit" name="save" value="<?php if (isset($edit_row)) echo 'Обновить';
+                                                    else echo 'Сохранить'; ?>">
+        </form>
     </div>
 </body>
 

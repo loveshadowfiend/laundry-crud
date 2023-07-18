@@ -26,12 +26,13 @@ include_once 'index.php'
                 $item_id = sanitize_input($_POST["item_id"]);
                 $item_name = sanitize_input($_POST["item_name"]);
                 $price = sanitize_input($_POST["price"]);
+                $weight_limit = sanitize_input($_POST["weight_limit"]);
                 $description = sanitize_input($_POST["description"]);
 
                 if (empty($item_id)) {
-                    $sql = "INSERT INTO Items (item_name, price, description) VALUES ('$item_name', $price, '$description')";
+                    $sql = "INSERT INTO Items (item_name, price, weight_limit, description) VALUES ('$item_name', $price, $weight_limit, '$description')";
                 } else {
-                    $sql = "UPDATE Items SET item_name='$item_name', price=$price, description='$description' WHERE item_id=$item_id";
+                    $sql = "UPDATE Items SET item_name='$item_name', price=$price, description='$description', weight_limit=$weight_limit WHERE item_id=$item_id";
                 }
 
                 if ($conn->query($sql) !== TRUE) {
@@ -64,6 +65,7 @@ include_once 'index.php'
                     <th>ID</th>
                     <th>Название</th>
                     <th>Цена</th>
+                    <th>Лимит веса</th>
                     <th>Описание</th>
                     <th>Действие</th>
                 </tr>
@@ -74,6 +76,7 @@ include_once 'index.php'
                         <td><?php echo $row["item_id"]; ?></td>
                         <td><?php echo $row["item_name"]; ?></td>
                         <td><?php echo $row["price"]; ?></td>
+                        <td><?php echo $row["weight_limit"]; ?></td>
                         <td><?php echo $row["description"]; ?></td>
                         <td>
                             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -110,12 +113,19 @@ include_once 'index.php'
 
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <input type="hidden" name="item_id" value="<?php if (isset($edit_row)) echo $edit_row['item_id']; ?>">
+
             <label for="item_name">Название:</label>
             <input type="text" name="item_name" value="<?php if (isset($edit_row)) echo $edit_row['item_name']; ?>" required><br><br>
+
             <label for="price">Цена:</label>
             <input type="number" name="price" step="0.01" value="<?php if (isset($edit_row)) echo $edit_row['price']; ?>" required><br><br>
+
+            <label for="weight_limit">Лимит веса:</label>
+            <input type="number" name="weight_limit" step="1.00" value="<?php if (isset($edit_row)) echo $edit_row['weight_limit']; ?>" required><br><br>
+
             <label for="description">Описание:</label>
-            <input type="text" name="description" value="<?php if (isset($edit_row)) echo $edit_row['description']; ?>" required><br><br>
+            <input type="text" name="description" value="<?php if (isset($edit_row)) echo $edit_row['description']; ?>"><br><br>
+
             <input type="submit" name="save" value="<?php if (isset($edit_row)) echo 'Обновить';
                                                     else echo 'Сохранить'; ?>">
         </form>
